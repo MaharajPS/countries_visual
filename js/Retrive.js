@@ -96,7 +96,6 @@ async function getLocationKeyByCity(city) {
   return data[0].Key;
 }
 
-/* Step 2: Get Current Weather */
 async function getCurrentWeather(locationKey) {
   const url = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${ACCU_API_KEY}&details=true`;
   const res = await fetch(url);
