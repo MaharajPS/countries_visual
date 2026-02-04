@@ -6,7 +6,7 @@ const itemsPerPage = 16;
 async function fetchData() {
   try {
     const response = await fetch(
-      'https://restcountries.com/v3.1/all?fields=name,flags'
+      'https://restcountries.com/v3.1/all?fields=name,flags,symbols,capital,borders,population,area,currencies'
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -29,13 +29,14 @@ function displayPage(page) {
   const pageItems = filteredCountries.slice(startIndex, endIndex);
 
   cardContainer.innerHTML = pageItems.map(country => `
-    <div class="country-card">
+    <div class="country-card" onclick='openModal(${JSON.stringify(country)})'>
       <div class="img-box">
         <img src="${country.flags.png}" alt="${country.name.common}">
       </div>
       <h3>${country.name.common}</h3>
     </div>
   `).join('');
+
 
   renderPagination(page);
 }
@@ -81,5 +82,90 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   currentPage = 1;
   displayPage(currentPage);
 });
+const ACCU_API_KEY = "zpka_dd2fa0f3c0a34c4492cbbc61e601b7c2_98a0acee";
+
+async function getLocationKeyByCity(city) {
+  const url = `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${ACCU_API_KEY}&q=${encodeURIComponent(city)}`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  if (!data || data.length === 0) {
+    throw new Error("City not found");
+  }
+
+  return data[0].Key;
+}
+
+/* Step 2: Get Current Weather */
+async function getCurrentWeather(locationKey) {
+  const url = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${ACCU_API_KEY}&details=true`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data[0];
+}
+
+
+async function openModal(country) {
+  let currencyText = "N/A";
+  if (country.currencies) {
+    const currencyObj = Object.values(country.currencies)[0];
+    currencyText = `${currencyObj.name} (${currencyObj.symbol || ""})`;
+  }
+
+  const capitalCity = country.capital?.[0];
+
+  
+  document.getElementById("modalBody").innerHTML = `
+    <h2>${country.name.official}</h2>
+    <p><b>Capital:</b> ${capitalCity || "N/A"}</p>
+    <p><b>Currency:</b> ${currencyText}</p>
+    <p><b>Population:</b> ${country.population}</p>
+    <p><b>Borders:</b> ${
+      country.borders?.length ? country.borders.join(", ") : "None"
+    }</p>
+
+    <hr>
+    <p id="weather"><b>Weather:</b> Loading...</p>
+  `;
+
+  document.getElementById("modal").style.display = "block";
+
+
+  try {
+    if (!capitalCity) throw new Error("No capital city");
+
+    const locationKey = await getLocationKeyByCity(capitalCity);
+    const weather = await getCurrentWeather(locationKey);
+    document.getElementById("weather").style.display="none";
+    document.getElementById("modalBody").innerHTML += `
+      <div class="weather-box">
+        <h3>&#x26C5; Current Weather (${capitalCity})</h3>
+        <p><b>Condition:</b> ${weather.WeatherText}</p>
+        <p><b>Temperature:</b> ${weather.Temperature.Metric.Value}°C</p>
+        <p><b>Humidity:</b> ${weather.RelativeHumidity}%</p>
+        <p><b>Wind:</b> ${weather.Wind.Speed.Metric.Value} km/h</p>
+      </div>
+    `;
+  } catch (err) {
+    document.getElementById("modalBody").innerHTML += `
+      <p style="color:red;">Weather data unavailable</p>
+    `;
+    console.error(err);
+  }
+}
+
+
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+window.onclick = function (event) {
+  const modal = document.getElementById("modal");
+  if (event.target === modal) {
+    closeModal();
+  }
+};
+
 
 fetchData();
