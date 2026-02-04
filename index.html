@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countries</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countries</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <div id="card"></div>
 
-    <script src="./js/Retrive.js"></script>
+  <div class="search-box">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search country..."
+    />
+  </div>
+
+  <div id="card"></div>
+
+  <div id="pagination-nav" class="pagination-container"></div>
+
+  <script src="./js/Retrive.js"></script>
 </body>
 </html>
