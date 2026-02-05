@@ -82,7 +82,7 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   currentPage = 1;
   displayPage(currentPage);
 });
-const ACCU_API_KEY = "YOUR_API_KEY";
+const ACCU_API_KEY = "Your_api_key";
 
 async function getLocationKeyByCity(city) {
   const url = `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${ACCU_API_KEY}&q=${encodeURIComponent(city)}`;
