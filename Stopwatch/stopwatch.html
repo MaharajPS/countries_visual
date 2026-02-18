@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="stopwatch.css">
+</head>
+
+<body>
+    <div class="container">
+        <p id="labels" style="display: none;"></p>
+        <div id="time" class="circle">
+
+            <p class="digit" id="min">
+                00</p>
+            <p class="txt">:</p>
+            <p class="digit" id="sec">
+                00</p>
+            <p class="txt">.</p>
+            <p class="digit" id="count">
+                00</p>
+        </div>
+        <div id="buttons">
+            <button class="btn" id="start">&#9654;</button>
+            <button class="btn" id="stop">&#xe034;</button>
+            <button class="btn" id="reset">Reset</button>
+            <button class="btn" id="label">Label</button>
+        </div>
+        
+    </div>
+
+    <script src="stopwatch.js"></script>
+
+</body>
+
+</html>

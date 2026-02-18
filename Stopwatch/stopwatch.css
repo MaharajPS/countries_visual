@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main App Container */
+.container {
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    position: relative;
+}
+
+/* Circle Timer */
+.circle {
+    width: 280px;
+    height: 280px;
+    border: 5px solid #444;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Time Digits */
+.digit {
+    font-size: 48px;
+    color: white;
+    font-weight: 300;
+}
+
+.txt {
+    font-size: 48px;
+    color: #aaa;
+}
+
+/* Bottom Buttons */
+#buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 40px 20px;
+}
+
+/* Common Button Style */
+.btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+}
+
+/* Play Button (Main Button) */
+#start {
+    background: #5e87c9;
+}
+
+/* Stop Button */
+#stop {
+    background: #444;
+}
+
+/* Reset Button */
+#reset {
+    background: #222;
+    font-size: 14px;
+}
+
+/* Label Button */
+#label {
+    background: #222;
+    font-size: 14px;
+}
+
+#labels {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+    font-size: 14px;
+}
+
+
+
+/* Press Effect */
+.btn:active {
+    transform: scale(0.9);
+}
